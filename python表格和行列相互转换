@@ -1,0 +1,5 @@
+table = [ ('A', 'B', 'C'),
+        ('D', 1, 2),
+        ('E', 3, 4)
+        ]
+print zip(*table)
