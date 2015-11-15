@@ -7,3 +7,12 @@ while True:
     else:
         print(int(reply) ** 2)
 print ('Bye')
+
+
+test_keys =['name','age','gender','weight','hight']
+test_values =['Hongten','20','M','55','170']
+#使用zip来构造一个字典
+print('字典中的key对应
+test_dic =dict(zip(test_keys,test_values))
+for key in test_dic:
+print( key + ':' + test_dic[key])
