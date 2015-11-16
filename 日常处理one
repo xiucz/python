@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+import re, sys
+file_exon = open('Genome.annotation_detail',"r")
+bed_file = open('Genome_GO.xls',"w")
+try:
+    for line in file_exon.readlines():
+        cols = line.strip().split("\t")
+        if col[0] == "GeneID":
+            print "line, file=bed_file"
+        else:
+            GO_ID = cols[0]
+            Go_term = {1 : "Process", 2:"Function", 3:"Component"}
+            key = Go_term.key()
+            for x in key:
+                i = cols[x]
+                GO_t = Go_term[x]
+                for y in i.split(";"):
+                    print (GO_ID,"\t","\t".join(y.split("//")),"\t",GO_t,file=bed_file))
+finally:
+file_exon.close()
+bed_file.close()
