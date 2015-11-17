@@ -19,3 +19,30 @@ try:
 finally:
 file_exon.close()
 bed_file.close()
+
+
+
+#!/usr/bin/env python
+
+import sys
+info=open(sys.argv[1])
+diff=open(sys.argv[2])
+out=open(sys.argv[3],'w')
+d={}
+for line in info:
+	cols=line.strip().split("\t")
+        a = line.strip().split("\t")
+	d[cols[0]]="\t".join(a[1:])
+info.close()
+
+for line in diff:
+	cols=line.strip().split("\t")
+	if cols[1]=="gene_id":
+		print >>out,(line.strip())
+	else:
+		print >>out,(d.get(cols[1],"-\t%s\t-"%cols[1])+"\t"+"\t".join(cols))
+diff.close()
+out.close()
+
+
+
