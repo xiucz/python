@@ -27,13 +27,13 @@ print(open('log.txt').read())
 print（‘%s %s %s’ % ('A', 'B', 'C')）
 print('{0} {1} {2}'.format('A', 'B', 'C'))
 
-####行数据改为列数据，并用逗号隔开
+####行数据改为列数据，并用逗号隔开####
 198
 1989
 266
 ...
 转换成198,1989,266,...,
-
+#!/usr/bin/env python
 file = open(\r'test.txt', 'r')
 result = list()
 for line in file.readlines():
