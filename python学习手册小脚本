@@ -35,7 +35,7 @@ print('{0} {1} {2}'.format('A', 'B', 'C'))
 ...
 转换成198,1989,266,...,
 #!/usr/bin/env python
-file = open(\r'test.txt', 'r')
+file = open('test.txt', 'r')
 result = list()
 for line in file.readlines():
     line = line.strip()
@@ -43,4 +43,44 @@ for line in file.readlines():
         continue
     result.append(line)
 print ','.join(result)
+
+####添加行####
+文本名字叫list.txt，内容是如下：
+test1
+test2
+test3
+test4
+test5
+test6
+test7
+....
+
+期望使用python把它改写为以下内容
+auto+test1
+auto+test2
+the laber
+auto+test3
+auto+test4
+the laber
+auto+test5
+auto+test6
+the laber
+....
+
+#!usr/bin/env python
+def addtext(txtname,span,insert):
+    txtfile = open('txtname')
+    txt = txtfile.readlines()
+    txt = ['auto+' + line for line in txt]
+    txt.file.close()
+    
+txtfile = open('txtname', 'w')
+i = 0
+while i + span < len(txt):
+    txtfile.writelines(txt[i:i+span])
+    txtfile.writelines(insert)
+    txtfile.write('\n')
+    i +=span
+    
+    
 
