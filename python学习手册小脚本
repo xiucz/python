@@ -26,3 +26,20 @@ print(open('log.txt').read())
 ####格式化####
 print（‘%s %s %s’ % ('A', 'B', 'C')）
 print('{0} {1} {2}'.format('A', 'B', 'C'))
+
+####行数据改为列数据，并用逗号隔开
+198
+1989
+266
+...
+转换成198,1989,266,...,
+
+file = open(\r'test.txt', 'r')
+result = list()
+for line in file.readlines():
+    line = line.strip()
+    if not len(line) or line.startwith('#'):            #判断是否是空行或是注释行
+        continue
+    result.append(line)
+print ','.join(result)
+
