@@ -13,12 +13,13 @@ try:
             key = Go_term.key()
             for x in key:
                 i = cols[x]
+#               print (i)
                 GO_t = Go_term[x]
                 for y in i.split(";"):
-                    print (GO_ID,"\t","\t".join(y.split("//")),"\t",GO_t,file=bed_file))
+                    print ('{0}\t{1}\t{2}'.format(GO_ID,"\t".join(y.split("//")),GO_t,file=bed_file)
 finally:
-file_exon.close()
-bed_file.close()
+    file_exon.close()
+    bed_file.close()
 
 
 
