@@ -77,3 +77,51 @@ for line in miseq_2:
 
 miseq_2.close()
 new.close()
+
+import sys
+import re
+
+USAGE="""heatmap.py OTU_Taxonomy_summary.xls OTU_summary.xls heatmap.txt"""
+
+#check for argv
+if len(sys.argv)!=4: sys.exit(USAGE)
+
+#get inputfile name
+input_file1=sys.argv[1]
+input_file2=sys.argv[2]
+output_file=sys.argv[3]
+
+pre_heatmap_data=open(input_file2)
+tax_genus=open(input_file1)
+heatmap=open(output_file,'w')
+
+genus_50=tax_genus.readlines()
+genus=[]
+for n in range(53):
+    item=genus_50[n].split("\t")
+    if "numOtus" in item:
+        continue
+    elif "label" in item:
+        continue
+    else:
+        genus.append(item[-2])
+
+top_50=pre_heatmap_data.readlines()
+for n in range(53):
+        item1=top_50[n].split("\t")
+        if "numOtus" in item1:
+            continue
+        elif "label" in item1:
+            continue
+        else:
+            otu_reads=item1[0:]
+            #genus_new=re.sub("^\n","unclassified",genus)
+            otu_names="_".join(x for x in (otu_reads[0],genus[n-2].split("(")[0]))
+            otu_fin_names=re.sub("^Group_[A-Za-z]*","Otu",otu_names)
+            heatmap.write(otu_fin_names+"\t"+"\t".join(x for x in otu_reads[1:]))
+
+pre_heatmap_data.close()
+tax_genus.close()
+heatmap.close()
+
+
