@@ -125,3 +125,31 @@ tax_genus.close()
 heatmap.close()
 
 
+#!usr/bin/env python
+#this script is used for miseq data
+import re
+
+infile = open("total.trim.fasta")
+outfile = open("total.group",'w')
+
+item=infile.read().split("\n")
+try:
+    for i in item:
+        i= i.rstrip()
+        if ">" in i :
+            if re.search("_.*_", i):
+#                print i
+                name = i.split(">")[1]
+                group1 = i.split(">")[1].split("_")[0] + "_" + i.split("_")[1]
+                outfile.write(name + "\t" + group1 + "\n" )
+            else:
+                name = i.split(">")[1]
+                group2 = i.split(">")[1].split("_")[0]
+                outfile.write(name + "\t" + group2 + "\n")
+#        else:
+#            outfile.write(i + "\n")
+finally:
+    infile.close()
+    outfile.close()
+
+
