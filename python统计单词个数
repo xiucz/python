@@ -3,7 +3,7 @@ import sys
 import string  
 #import collections  
   
-if len(sys.argv) == 1 or sys.argv[1] in {"-h", "--help"}:  
+if len(sys.argv) == 1 or sys.argv[1] in {"-h", "--help"}: #判断是否有输入参数，如果输入参数为空或者为-h， -help，则输出帮助信息。  
     print("USAGE: uniqueword.py filename_1 filename_2 ... filename_n")  
     sys.exit()  
 else:  
