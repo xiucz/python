@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+import sys  
+import string  
+#import collections  
+  
+if len(sys.argv) == 1 or sys.argv[1] in {"-h", "--help"}: #判断是否有输入参数，如果输入参数为空或者为-h， -help，则输出帮助信息。  
+    print("USAGE: uniqueword.py filename_1 filename_2 ... filename_n")  
+    sys.exit()  
+else:  
+    words = {}   
+    # words = collections.defaultdict(int)  
+    strip = string.whitespace + string.punctuation + string.digits + "\"'"  
+    for filename in sys.argv[1:]:  
+        for line in open(filename):  
+            for word in line.split():  
+                word = word.strip(strip)  
+                if len(word) >= 2:  
+                    words[word] = words.get(word, 0) + 1  
+                    # words[word] += 1  
+   for word in sorted(words):  
+       print("'{0}' occurs {1} times".format(word,words[word])) 
+===============================================================================================================================
+/“/请/！/”/“/请/！/”/两名/剑士/各自/倒转/剑尖/，/右手/握/剑柄/，
+/左手/搭于/右手/手背/，/躬身行礼/。/两/人/身子/尚未/站/直/，
+/突然/间/白光闪/动/，/跟着/铮的/一/声响/，
+/双剑相/交/，/两/人/各/退一步/。
+/旁/观众/人/都/是/“/咦/”/的/一声/轻呼/。/青衣/剑士/连/劈/三/剑/
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+word_list = []
+word_dict = {}
+with open('中文.txt, 'r') as f1, open('词频.txt', 'w') as f2:
+    for item in word_list:
+        word_list.append(line.split('/'))
+        
+    for item in word_list:
+        for item2 in item:
+            if item2.strip() not in " ，！ 。“”":
+                if item2 not in word_dict:
+                    word_dict[item2] = 1
+                else:
+                    word_dict[item] += 1
+    
+    for key in word_dict:
+        print key,word_dict[key]
+        f2.write(key + '' + str(word_dict[key]))
