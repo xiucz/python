@@ -1,0 +1,59 @@
+#!/usr/bin/env python 
+import sys, re, gzip
+
+Q = 33
+Q20, Q30 = 20 + Q, 30 + Q
+quality_distribute = range(2,43)
+count_tmp_reads = 300
+def QC(project, fqfile):
+    total_reads, total_bases, q20_bases, q30_bases, q20, q30 = 0, 0, 0, 0, 0, 0
+    qual_dict = dict([(chr(i+Q), 0) for i in quality_distribute])
+    if fqfile.endswith(".gz"):
+        f=gzip.open(fqfile)
+    else:
+        f=open(fqfile)
+    line = f.readline()
+    tmp = ""
+    while line!="":
+        name = line.strip()
+        seq ,qname, qual = f.readline().strip(), f.readline().strip(), f.readline().strip()
+        if len(seq) != len(qual):
+            sys.exit('''Warning: "%s" have different sequence and qualitylength\n'''%name)
+        total_reads += 1
+        total_bases += len(seq)
+        tmp += qual
+        if total_reads%count_tmp_reads == 0:
+            for k in qual_dict.keys():
+                qual_dict[k] += tmp.count(k)
+            tmp = ""
+        line = f.readline()
+    f.close()
+
+    for k in qual_dict.keys():
+        qual_dict[k] += tmp.count(k)
+
+    q20_bases = sum((qual_dict[k] for k in qual_dict.keys() if ord(k) >= Q20))
+    q30_bases = sum((qual_dict[k] for k in qual_dict.keys() if ord(k) >= Q30))
+
+    q20 = float(q20_bases)/total_bases
+    q30 = float(q30_bases)/total_bases
+    good_reads = total_reads
+    ratio = float(good_reads)/total_reads
+    print "%s\t%s\t%s\t%s\t%.4f\t%s\t%.4f\t%.4f"%(project, fqfile, total_reads, good_reads, ratio, total_bases, q20, q30)
+
+if __name__ == "__main__":
+    USAEG = """
+    USAGE: python %s <Project> <fq1[.gz]> [<fq2[.gz]> ... <fqn[.gz]>]
+    Example1: python %s BC150330 A1.fastq
+    Example2: python %s BC150330 A1.fastq.gz
+    Example3: python %s BC150330 A1.fastq.gz A2.fastq
+    """%(sys.argv[0], sys.argv[0], sys.argv[0], sys.argv[0])
+    if len(sys.argv) < 3:
+        sys.exit(USAEG)
+    project, fqfiles = sys.argv[1], sys.argv[2:]
+    print "Order ID\tSample name\tTotal reads\tGood reads\tGood Ratio\tTotal Bases\tQ20\tQ30"
+    for fq in fqfiles:
+        QC(project, fq)
+		
+
+
