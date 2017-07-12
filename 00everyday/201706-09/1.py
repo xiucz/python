@@ -54,4 +54,48 @@ fillgtf("Triticum_aestivum_ori.gtf")
 
 
 ####20170630 fillgtf.py
+import re,sys
+
+f = open(sys.argv[1])
+
+for line in f:
+    line=line.split()
+    if len(line)==9:
+        if line[2]=="gene":
+            regex = re.compile(r";locus_tag=(.*?);")
+            a = regex.findall(line[8])
+            if a:
+                a=a[0]
+                print("\t".join(line[0:8])+"\t"+'''gene_id "%s"; transcript_id "%s";'''%(a,a))
+                print("\t".join(line[0:2])+"\t"+"exon"+"\t"+"\t".join(line[3:8])+"\t"+'''gene_id "%s"; transcript_id "%s";'''%(a,a))
+            else:
+                regex = re.compile(r";locus_tag=(.*)")
+                a=regex.findall(line[8])
+                a=a[0]
+                print("\t".join(line[0:8])+"\t"+'''gene_id "%s"; transcript_id "%s";'''%(a,a))
+                print("\t".join(line[0:2])+"\t"+"exon"+"\t"+"\t".join(line[3:8])+"\t"+'''gene_id "%s"; transcript_id "%s";'''%(a,a))
+
+                
+#### 20170712
+import sys,re
+f = open(sys.argv[1])
+f1 = open("ues.gene","w")
+for i in f:
+        i =i.strip().split("\t")
+        if i[2]=="gene":
+                regex=re.compile(r"gene_id \"(.*?)\";")
+                id = regex.findall(i[-1])[0]
+                f1.write(i[0]+"\t"+i[3]+'\t'+i[4]+'\t'+id+'\t'+id+'\t'+i[6]+'\n')
+
+       
+#### 20170712
+import sys,re
+f = open(sys.argv[1])
+f1 = open("ues.gene","w")
+for i in f:
+        i =i.strip().split("\t")
+        if i[2]=="gene":
+                regex=re.compile(r"gene_id \"(.*?)\";")
+                id = regex.findall(i[-1])[0]
+                f1.write(i[0]+"\t"+i[3]+'\t'+i[4]+'\t'+id+'\t'+id+'\t'+i[6]+'\n')
 
