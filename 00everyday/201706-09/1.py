@@ -99,3 +99,61 @@ for i in f:
                 id = regex.findall(i[-1])[0]
                 f1.write(i[0]+"\t"+i[3]+'\t'+i[4]+'\t'+id+'\t'+id+'\t'+i[6]+'\n')
 
+
+#### 20170714 transcriptome2gene
+#!/usr/bin/env python3
+# -*- coding:uft-8 -*-
+#需要改进的Unigene_LIST的\t改成，
+#去掉每行末尾的\t和字典替换#
+import re, sys
+
+def transcript_gene():
+    mydict = {}
+    with open("Triticum_aestivum.TGACv1.35.gtf") as infile:
+        for line in infile:
+            if line.startswith("#"):continue
+            else:
+                cols = line.strip().split("\t")
+                if "transcript_id" in cols[8]:
+                    item_target = re.search('gene_id "(.*)"; transcript_id "(.*)"; exon_number', cols[8])
+                    if item_target:
+                        gene_id, transcript_id = item_target.group(1), item_target.group(2)
+                        if transcript_id not in mydict.keys():
+                            mydict[transcript_id] = []
+                            mydict[transcript_id].append(gene_id)
+                        else:
+                            mydict[transcript_id].append(gene_id)
+                    else:continue
+                else:continue
+    newdict = {}
+    for keys, values in mydict.items():
+        newdict[keys] = list(set(values))
+    return newdict
+transcript_gene_dict = transcript_gene()
+
+def pathway_transid():
+    pathwayout = open("pathway_info.xls", "w")
+    with open("pathway_info.xls_ori") as pathwayfile:
+        for line in pathwayfile:
+            cols = line.strip().split("\t")
+            cols_tmp = cols[3]
+            item_tmp = cols_tmp.split(",")
+            if line.startswith("PATHWAY_ID"):
+                pathwayout.write(line)
+            else:
+                cols_tmp_new = [transcript_gene_dict.get(x,"#")[0] for x in item_tmp]
+                pathwayout.write("\t".join(cols[0:3]) + "\t" + "\t".join(cols_tmp_new) + "\n")
+pathway_transid()
+
+def ec_transid():
+    ecout = open("ec_info.xls", "w")
+    with open("ec_info.xls_ori") as ecfile:
+        for line in ecfile:
+            cols = line.strip().split("\t")
+            if line.startswith("Unigene_id"):
+                ecout.write(line)
+            else:
+                if cols[0] in transcript_gene_dict.keys():
+                    ecout.write(transcript_gene_dict[cols[0]][0] + "\t" + "\t".join(cols[1:]) + "\n")
+                else:continue
+ec_transid()
