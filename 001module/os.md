@@ -1,6 +1,6 @@
-os.path.abspath(path) #返回绝对路径
-os.path.basename(path) #返回文件名
-os.path.commonprefix(list) #返回list(多个路径)中，所有path共有的最长的路径。
+* os.path.abspath(path) #返回绝对路径
+* os.path.basename(path) #返回文件名
+* os.path.commonprefix(list) #返回list(多个路径)中，所有path共有的最长的路径。
 os.path.dirname(path) #返回文件路径
 os.path.exists(path)  #路径存在则返回True,路径损坏返回False
 os.path.lexists  #路径存在则返回True,路径损坏也返回True
