@@ -3,8 +3,8 @@ import sys, os
 from subprocess import call
 from multiprocessing import Process, Pool
 
-__author__  = "Deng Junhao (ruocheng_huang@shbiochip.com)"
-__version__ = "v0.1.0, 2016/10/20"
+__author__  = ""
+__version__ = ""
 
 USAGE = """
     PYTHON MultCommand.py
