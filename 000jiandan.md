@@ -23,5 +23,6 @@ for i in img:
 ```python
 >>> urls = ['http://jandan.net/ooxx/page-{}'.format(str(i)) for i in range(1,12)]
 ```
+![code](https://github.com/xiucz/python/blob/master/003WebScraping/pictures/20170928.jpg)
 ## Reference_info
 http://mp.weixin.qq.com/s/d7v3tO7i6n9X6CLExUcryQ
